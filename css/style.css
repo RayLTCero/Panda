@@ -85,6 +85,13 @@ button.btn-notifications,textarea:focus{
     border-color: #ffffff;
 }
 
+.errorInput{
+    border: 1px solid rgba(140, 26, 26, 0.79);
+    background-color: rgba(140, 26, 26, 0.79);
+    box-shadow: 0px 1px 7px -1px rgba(140, 26, 26, 0.79);
+    color: rgba(140, 26, 26, 0.79);
+}
+
 /*=======================================
 HEADER HEADER HEADER HEADER HEADER HEADER
 =========================================*/

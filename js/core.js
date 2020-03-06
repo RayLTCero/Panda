@@ -18,7 +18,27 @@ export function inputOnlyText(input){
     return response;
 }
 
-
+// Verificacion sencilla de que se ha introducido un email
+export function inputEmail(input){
+    let email = input.value;
+    let arroba = (email.indexOf('@') > 0 ) ? email.indexOf('@') : false;
+    let dominios = ['.es','.com'];
+    let response = false;
+   for(let index = 0; index < dominios.length; index++){
+       if(email.indexOf(dominios[index]) > arroba && arroba){  
+           var last = '';
+           for(let x = email.indexOf(dominios[index]); x < email.length; x++){
+               last += email[x]; 
+           }
+           for(let i = 0; i < dominios.length; i++){
+               if(dominios[i] == last){
+                   response = true;
+               }
+           }
+       }
+   }    
+    return response; 
+}
 
 export class Alien {
 
@@ -147,20 +167,28 @@ export class Alien {
 
     
     
-    addEventSubmit(eventType, array){
+    addEvent(eventType, array){
+        
         for(let x in array){
-            document.getElementById(array[x]).addEventListener(eventType, (e)=>{
-                
-                if(e.target.type == 'submit'){
-                    let datos = new FormData(document.getElementById(array[x]));
-                    this.run(array[x]);
-                    
+            
+            if(document.getElementById(array[x]) == null){
+               
+                continue;
+            }else{
 
-                }else{
-                    return false;
-                }
-                e.preventDefault();
-            });
+                document.getElementById(array[x]).addEventListener(eventType, (e)=>{
+                    e.preventDefault();
+                    let datos = new FormData(document.getElementById(array[x]));
+                    this.run(array[x], datos);
+
+                    // if(e.target.type == 'submit'){
+    
+                    // }else{
+                    //     return false;
+                    // }
+                    //e.preventDefault();
+                });
+            }
         }
     }
 
@@ -172,17 +200,17 @@ export class Alien {
         
     }
     
-    run(arg){
+    run(arg, datos = null){
         
         for( let x in this.executorKeys){
 
             //console.log(arg + " = "+ x);
             if(arg == x ){
                 //console.log('true');
-                this.executorKeys[x]();
+                (datos !== null) ? this.executorKeys[x](datos) : this.executorKeys[x]();
                 break;  
             }else{
-                console.log('false');
+                //console.log('false');
             }
             
         }
